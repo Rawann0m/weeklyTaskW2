@@ -8,16 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var settingsViewModel = SettingsViewModel()
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        // the tabview to show the pages i have
+        TabView {
+                   HomeView(settingsViewModel: settingsViewModel)
+                       .tabItem {
+                           Label("Home", systemImage: "house")
+                       }
+                   
+                   NavigationStack {
+                       SettingsView(settingsViewModel: settingsViewModel)
+                   }
+                   .tabItem {
+                       Label("Settings", systemImage: "gear")
+                   }
+               }
+               .preferredColorScheme(settingsViewModel.isDarkMode ? .dark : .light) 
+           }
     }
-}
 
 #Preview {
     ContentView()
