@@ -42,15 +42,11 @@ class TaskViewModel: ObservableObject {
 
 
     // Delete task
-    func deleteTask(at offsets: IndexSet) {
-        for index in offsets {
-            let taskID = sortedTasks[index].id  
-            if let actualIndex = tasks.firstIndex(where: { $0.id == taskID }) {
-                withAnimation(.easeInOut) {
-                    tasks.remove(at: actualIndex)
-                    //will force the ui to refresh
-                    objectWillChange.send()
-                }
+    func deleteTask(task: Task) {
+        if let index = tasks.firstIndex(where: { $0.id == task.id }) {
+            withAnimation {
+                tasks.remove(at: index)
+                objectWillChange.send() // Forces UI update
             }
         }
     }

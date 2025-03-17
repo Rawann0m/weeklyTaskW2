@@ -30,14 +30,22 @@ struct HomeView: View {
                     // Task List
                     ScrollView{
                         LazyVStack(alignment: .leading, spacing: 10) {
-                        ForEach(taskViewModel.sortedTasks) { task in
-                            TaskRowView(task: task, viewModel: taskViewModel)
-                                .transition(.opacity)
-                                .id(task.id)
-                            
+                            ForEach(taskViewModel.sortedTasks) { task in
+                                TaskRowView(task: task, viewModel: taskViewModel)
+                                    .transition(.opacity)
+                                    .id(task.id)
+                                //this will be long press instead of swip
+                                    .contextMenu {
+                                        Button(role: .destructive) {
+                                            taskViewModel.deleteTask(task: task)
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    }
+                                
+                                
+                            }
                         }
-                        .onDelete(perform: taskViewModel.deleteTask)
-                    }
                     .padding([.leading, .trailing], 16)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .scrollContentBackground(.hidden)
